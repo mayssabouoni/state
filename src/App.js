@@ -3,37 +3,28 @@ import './App.css';
 class App extends React.Component { 
     constructor() {  
          super();        
-         this.state = { displayprofile: false
-            
-            ,count: 0,
-            timedStats: 0
+         this.state = { displayprofile: false,
+time:0,
         }; 
          this.toggleDisplayprofile = this.toggleDisplayprofile.bind(this);
-         this.timer = this.timer.bind(this);  
+          
          }  
          toggleDisplayprofile(){  
              this.setState({displayprofile: !this.state.displayprofile});  
              } 
-             timer() {
-                this.setState({ count: this.state.count + 1 });
-              }
-              componentWillMount() {
-                this.timerId = setInterval(this.timer, 1000);
-              }
+             componentDidMount() {
+              setInterval(() => {
+                this.setState((prevState) => ({
+                  time: prevState.time + 1,
+                }));
+              }, 1000);
             
-              async componentDidMount() {
-                const data = await fetch("/timed-stats.json");
-                this.setState({ timedStats: data });
-              }
-            
-              componentWillUnmount() {
-                clearInterval(this.timerId);
-              }
+            }
              
          render() { 
-            const { count } = this.state; 
+           
              return (  
-                 <div id="count">{count} >  
+                 <div>  
                      <h1 style={{ color: "white", fontSize: 100 , textAlign:'center' }}>Welcome to my profile</h1>  
                      {  
                          this.state.displayprofile ? (   
@@ -51,10 +42,19 @@ class App extends React.Component {
                                  <div>  
                                      <button onClick={this.toggleDisplayprofile}> Read More </button>  
                                  </div>  
-                             )  
-                     }  
+                             ) 
+                            
+                     }
+
+                      <div className="counter" style={{color:'red'}}>
+                             The last component was mounted since: {this.state.time} seconds
+                           </div> 
+                             
                 </div>  
            )  
-       }  
-   }  
+        
+   
+
+}  
+  }
    export default App;  
